@@ -12,7 +12,7 @@
 
 - name
 - number_of_servings
-- category_id
+- tag_id
 
 
 *** Ingredients
@@ -37,12 +37,7 @@
 
 *** Steps
 
-- order
+- step_number
+- description
+- version_number
 - recipe_id
-- description
-
-*** Modifications
-
-- step_id
-- version
-- description
