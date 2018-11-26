@@ -1,0 +1,48 @@
+* Recipe Minder
+
+"That app my wife has wanted me to make for keeping track of when we make which recipes."
+
+** Data Model
+
+*** Tags
+
+- name
+
+*** Recipes
+
+- name
+- number_of_servings
+- category_id
+
+
+*** Ingredients
+
+- name
+
+*** Amounts
+
+- recipe_id
+- ingredient_id
+- amount_per_serving
+
+*** Meals
+
+- made_on
+- notes
+
+*** Recipes_Meals
+
+- recipe_id
+- meal_id
+
+*** Steps
+
+- order
+- recipe_id
+- description
+
+*** Modifications
+
+- step_id
+- version
+- description
