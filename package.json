@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "db:reset": "dropdb recipe-minder-db && createdb recipe-minder-db && psql -f db/schema.sql recipe-minder-db && psql -f db/seed.sql recipe-minder-db",
+    "db:shell": "psql recipe-minder-db",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
