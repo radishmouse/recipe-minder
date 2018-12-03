@@ -41,3 +41,9 @@
 - description
 - version_number
 - recipe_id
+
+** Queries
+
+*** we have broccoli, what can we make?
+
+*** what haven't we made in a while?

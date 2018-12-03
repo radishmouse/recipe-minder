@@ -22,7 +22,7 @@ class Recipe {
         returning id
       `,
       values: [name, servings]
-    }).then(newRecord => new Recipes(newRecord.id, name, servings));    
+    }).then(newRecord => new Recipe(newRecord.id, name, servings));    
   }
 
   static searchByName(searchText) {
@@ -65,6 +65,53 @@ class Recipe {
       )
     `, [ingredientName])
       .then(this.convertMultiple);
+  }
+
+  static searchOlder(howMany=5) {
+    console.log('TODO: use joins so we can see what date it was last made on');
+    return db.any(`
+      select * from recipes 
+        where 
+      id in (
+        select meal_id from recipes_meals 
+          where 
+        recipe_id in (
+          select id from meals 
+            order by made_on, id asc 
+          limit $1
+        )
+      )
+    `, [howMany])
+    .then(this.convertMultiple);
+  }
+
+  update(id, newName, newServings) {
+    return db.result(`
+      update recipes set
+        name=$2,
+        servings=$3
+      where id=$1
+    `, [id, newName, newServings])
+    .then(({rowCount}) => {
+      if (rowCount !== 1) {
+        return 0;
+      } else {
+        return id;
+      }
+    });
+  }
+
+  static delete(id) {
+    return db.result(`
+      delete from recipes where id=$1
+    `, [id])
+    .then(({rowCount}) => {
+      if (rowCount !== 1) {
+        return 0;
+      } else {
+        return id;
+      }
+    });    
   }
 }
 
