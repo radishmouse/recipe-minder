@@ -9,7 +9,7 @@ values
   ('vegetarian');
   
 insert into recipes
-  (name, number_of_servings)
+  (name, servings)
 values
   ('meatloaf', 4),
   ('steak tartare', 6),

@@ -6,7 +6,7 @@ create table tags (
 create table recipes (
   id serial primary key,
   name varchar(300) unique not null,
-  number_of_servings integer
+  servings integer
 );
 
 create table recipes_tags (
