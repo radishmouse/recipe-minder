@@ -85,6 +85,23 @@ class Recipe {
     .then(this.convertMultiple);
   }
 
+  static searchByTag(tagName) {
+    return db.any(`
+      select *
+        from recipes
+      where id in (
+        select recipe_id
+          from recipes_tags
+        where tag_id in (
+              select id
+                from tags
+              where name ilike '%$1:raw%'
+          )
+      )
+    `, [tagName])
+      .then(this.convertMultiple);
+  }
+  
   update(id, newName, newServings) {
     return db.result(`
       update recipes set
