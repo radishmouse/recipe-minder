@@ -53,6 +53,18 @@
 
 *** TODO I need to add a receipe
 
+- add a recipe to the db
+- add ingredients
+  - first see if they are already in the =ingredients= table
+  - then add to the =amounts= table (effectively linking ingredients to recipe)
+- for each instruction ("step"), add to the =steps= table
+
+
+*** I need to record the fact that I made a recipe
+
+- create an entry in the =meals= table
+- for each recipe that was part of the meal, link in =recipes_meals= table
+
 *** TODO I need to tag a recipe
 
 *** TODO I just made a thing, and next time, I want to try making it spicier
