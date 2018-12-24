@@ -44,10 +44,10 @@
 
 ** Queries
 
-*** TODO we have broccoli, what can we make?
+*** DONE we have broccoli, what can we make?
 
-*** TODO what haven't we made in a while?
-*** TODO I need to eat something quickly. What's easy?
+*** DONE what haven't we made in a while?
+*** DONE I need to eat something quickly. What's easy? (This is a tag search)
 
 ** Adding recipes and modifications
 
