@@ -27,8 +27,8 @@ class Recipe extends Model {
   static get(id) {
     return this.convertFromQuery(
       this.db.one(`
-      select * from recipes where id=$1
-    `, [id]));
+        select * from recipes where id=$1
+      `, [id]));
   }
   
   static searchByName(searchText) {
