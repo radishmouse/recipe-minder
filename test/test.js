@@ -1,4 +1,5 @@
 const chai = require('chai');
+const expect = chai.expect;
 const chaiAsPromised = require('chai-as-promised');
 chai.use(chaiAsPromised).should();
 
@@ -6,6 +7,7 @@ chai.use(chaiAsPromised).should();
 const Recipe = require('../db/models/Recipe');
 
 describe('Recipe', () => {
+
   describe('Adding/removing a recipe', () => {
     it('should add and delete without error', async () => {
       const newRecipe = await Recipe.add('borscht', 100);
@@ -20,11 +22,22 @@ describe('Recipe', () => {
         const instance = await Recipe.get(1);
         instance.should.be.an.instanceOf(Recipe);      
       });
+
       it('should reject for an invalid id', () => {
-        return Recipe.get(999999).should.eventually.be.rejected; 
-      });      
+        return Recipe.get(9999).should.eventually.be.rejected; 
+      });
+    });
+
+    describe('searchByName', () => {
+      it('should be an array of instances for a valid name', async () => {
+        const instances = await Recipe.searchByName('steak');
+        instances.should.be.an('array');
+        instances.forEach(i => expect(i).to.be.an.instanceOf(Recipe));
+      });
     });
   });
+
+
   
   describe('Adding steps to a recipe', () => {
     const steps = [
