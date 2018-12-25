@@ -7,8 +7,9 @@ const Recipe = require('../db/models/Recipe');
 
 describe('Recipe', () => {
   describe('Adding a recipe', () => {
-    it('should save without error', () => {
-      Recipe.add('borscht', 100).should.eventually.be.an.instanceOf(Recipe);
+    it('should save without error', async () => {
+      const newRecipe = await Recipe.add('borscht', 100);      
+      newRecipe.should.be.an.instanceOf(Recipe);
     });
   });
 });
