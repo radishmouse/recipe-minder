@@ -25,6 +25,12 @@ class Recipe {
     }).then(newRecord => new Recipe(newRecord.id, name, servings));    
   }
 
+  static get(id) {
+    return db.one(`
+      select * from recipes where id=$1
+    `, [id]).then(r => new Recipe(id, r.name, r.servings));
+  }
+  
   static searchByName(searchText) {
     // return db.any({
     //   name: 'search-recipes-by-name',
@@ -101,7 +107,49 @@ class Recipe {
     `, [tagName])
       .then(this.convertMultiple);
   }
-  
+
+  static delete(id) {
+    return db.result(`
+      delete from recipes where id=$1
+    `, [id])
+    .then(({rowCount}) => {
+      if (rowCount !== 1) {
+        return 0;
+      } else {
+        return id;
+      }
+    });    
+  }  
+
+  getIngredientAmounts() {
+    // return array of ingredients and amounts
+  }
+
+  get steps() {
+    // return array of steps
+  }
+
+  set step(step) {
+
+    // if ()
+    
+    // given a Step 
+    
+    // get last order number of existing steps
+    // insert this step, setting its order number
+
+
+    // update a step in place
+    // if its order number has changed, update other steps to
+    // accommodate.
+  }
+
+  addIngredientAmount(ingredient, quantity, measurement) {
+    // find or create the ingredient
+    // using its id, add to the amounts table using this.id
+    
+  }
+
   update(id, newName, newServings) {
     return db.result(`
       update recipes set
@@ -117,19 +165,7 @@ class Recipe {
       }
     });
   }
-
-  static delete(id) {
-    return db.result(`
-      delete from recipes where id=$1
-    `, [id])
-    .then(({rowCount}) => {
-      if (rowCount !== 1) {
-        return 0;
-      } else {
-        return id;
-      }
-    });    
-  }
+  
 }
 
 module.exports = Recipe;
