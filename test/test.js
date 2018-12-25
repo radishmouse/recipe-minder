@@ -13,6 +13,19 @@ describe('Recipe', () => {
       Recipe.delete(newRecipe.id).should.eventually.equal(newRecipe.id);      
     });
   });
+  
+  describe('Can retrieve Recipe instances', () => {
+    describe('getById', () => {      
+      it('should be an instance for a valid id', async () => {
+        const instance = await Recipe.get(1);
+        instance.should.be.an.instanceOf(Recipe);      
+      });
+      it('should reject for an invalid id', () => {
+        return Recipe.get(999999).should.eventually.be.rejected; 
+      });      
+    });
+  });
+  
   describe('Adding steps to a recipe', () => {
     const steps = [
       'heat skillet',
