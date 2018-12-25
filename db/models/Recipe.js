@@ -1,18 +1,21 @@
-const db = require('../conn');
+const Model = require('./base');
 
-class Recipe {
+class Recipe extends Model {
   constructor(id, name, servings) {
+    super(Recipe);
+
     this.id = id;
     this.name = name;
     this.servings = servings;
   }
 
-  static convertMultiple(recipes) {
-    return recipes.map(r => new Recipe(r.id, r.name, r.servings));
-  }
+  // moved to base model
+  // static convertMultiple(recipes) {
+  //   return recipes.map(r => new Recipe(r.id, r.name, r.servings));
+  // }
   
   static add(name, servings) {
-    return db.one({
+    return this.db.one({
       name: 'add-recipe',
       text: `
         insert into recipes
@@ -26,7 +29,7 @@ class Recipe {
   }
 
   static get(id) {
-    return db.one(`
+    return this.db.one(`
       select * from recipes where id=$1
     `, [id]).then(r => new Recipe(id, r.name, r.servings));
   }
@@ -41,7 +44,7 @@ class Recipe {
     //   `,
     //   values: [searchText]
     // })
-    return db.any(`
+    return this.db.any(`
         select * from recipes
         where
           name ilike '%$1:raw%'
@@ -51,7 +54,7 @@ class Recipe {
 
   static searchByServings(howMany, threshold=1) {
     // Find a Recipe that provides =howMany= servings
-    return db.any(`
+    return this.db.any(`
       select * from recipes 
         where 
       servings > ($1 - $2) and servings < ($1 + $2)
@@ -59,7 +62,7 @@ class Recipe {
   }
 
   static searchByIngredient(ingredientName){
-    return db.any(`
+    return this.db.any(`
       select * from recipes 
         where 
       id in (
@@ -75,7 +78,7 @@ class Recipe {
 
   static searchOlder(howMany=5) {
     console.log('TODO: use joins so we can see what date it was last made on');
-    return db.any(`
+    return this.db.any(`
       select * from recipes 
         where 
       id in (
@@ -92,7 +95,7 @@ class Recipe {
   }
 
   static searchByTag(tagName) {
-    return db.any(`
+    return this.db.any(`
       select *
         from recipes
       where id in (
@@ -109,7 +112,7 @@ class Recipe {
   }
 
   static delete(id) {
-    return db.result(`
+    return this.db.result(`
       delete from recipes where id=$1
     `, [id])
     .then(({rowCount}) => {
@@ -126,7 +129,7 @@ class Recipe {
   }
 
   get steps() {
-    // return array of steps
+    // return db.any()
   }
 
   set step(step) {
@@ -151,7 +154,7 @@ class Recipe {
   }
 
   update(id, newName, newServings) {
-    return db.result(`
+    return this.db.result(`
       update recipes set
         name=$2,
         servings=$3
