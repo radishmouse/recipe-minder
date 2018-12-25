@@ -51,10 +51,10 @@
 
 ** Adding recipes and modifications
 
-*** TODO I need to add a receipe
+*** TODO I need to add a recipe
 
 - add a recipe to the db
-- add ingredients
+- add ingredients, one at a time
   - first see if they are already in the =ingredients= table
   - then add to the =amounts= table (effectively linking ingredients to recipe)
 - for each instruction ("step"), add to the =steps= table
