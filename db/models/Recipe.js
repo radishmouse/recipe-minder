@@ -2,67 +2,55 @@ const Model = require('./base');
 
 class Recipe extends Model {
   constructor(id, name, servings) {
-    super(Recipe);
-
+    super();
+    
     this.id = id;
     this.name = name;
     this.servings = servings;
   }
 
-  // moved to base model
-  // static convertMultiple(recipes) {
-  //   return recipes.map(r => new Recipe(r.id, r.name, r.servings));
-  // }
-  
   static add(name, servings) {
-    return this.db.one({
-      name: 'add-recipe',
-      text: `
+    return this.convertFromQuery(
+      this.db.one({
+        name: 'add-recipe',
+        text: `
         insert into recipes
           (name, servings)
         values
           ($1, $2)
-        returning id
+        returning id, name, servings
       `,
-      values: [name, servings]
-    }).then(newRecord => new Recipe(newRecord.id, name, servings));    
+        values: [name, servings]
+      }));
   }
 
   static get(id) {
-    return this.db.one(`
+    return this.convertFromQuery(
+      this.db.one(`
       select * from recipes where id=$1
-    `, [id]).then(r => new Recipe(id, r.name, r.servings));
+    `, [id]));
   }
   
   static searchByName(searchText) {
-    // return db.any({
-    //   name: 'search-recipes-by-name',
-    //   text: `
-    //     select * from recipes
-    //     where
-    //       name ilike '%$1:raw%'
-    //   `,
-    //   values: [searchText]
-    // })
-    return this.db.any(`
+    return this.convertFromQuery(this.db.any(`
         select * from recipes
         where
           name ilike '%$1:raw%'
-      `, [searchText])   
-      .then(this.convertMultiple);
+      `, [searchText]));
+
   }
 
   static searchByServings(howMany, threshold=1) {
     // Find a Recipe that provides =howMany= servings
-    return this.db.any(`
+    return this.convertFromQuery(this.db.any(`
       select * from recipes 
         where 
       servings > ($1 - $2) and servings < ($1 + $2)
-    `, [howMany, threshold]).then(this.convertMultiple);
+    `, [howMany, threshold]));
   }
 
   static searchByIngredient(ingredientName){
-    return this.db.any(`
+    return this.convertFromQuery(this.db.any(`
       select * from recipes 
         where 
       id in (
@@ -72,13 +60,13 @@ class Recipe extends Model {
           select id from ingredients where name ilike '%$1:raw%'
         )
       )
-    `, [ingredientName])
-      .then(this.convertMultiple);
+    `, [ingredientName]));
+
   }
 
   static searchOlder(howMany=5) {
     console.log('TODO: use joins so we can see what date it was last made on');
-    return this.db.any(`
+    return this.convertFromQuery(this.db.any(`
       select * from recipes 
         where 
       id in (
@@ -90,12 +78,11 @@ class Recipe extends Model {
           limit $1
         )
       )
-    `, [howMany])
-    .then(this.convertMultiple);
+    `, [howMany]));
   }
 
   static searchByTag(tagName) {
-    return this.db.any(`
+    return this.convertFromQuery(this.db.any(`
       select *
         from recipes
       where id in (
@@ -107,8 +94,8 @@ class Recipe extends Model {
               where name ilike '%$1:raw%'
           )
       )
-    `, [tagName])
-      .then(this.convertMultiple);
+    `, [tagName]));
+
   }
 
   static delete(id) {
