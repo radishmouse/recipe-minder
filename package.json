@@ -7,7 +7,7 @@
     "db:reset": "dropdb recipe-minder-db && createdb recipe-minder-db && psql -f db/schema.sql recipe-minder-db && psql -f db/seed.sql recipe-minder-db",
     "db:shell": "psql recipe-minder-db",
     "db:scratch": "psql -f db/scratch.sql recipe-minder-db",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "keywords": [],
   "author": "",
@@ -16,5 +16,10 @@
     "dotenv": "^6.1.0",
     "express": "^4.16.4",
     "pg-promise": "^8.5.2"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^5.2.0"
   }
 }
