@@ -7,8 +7,8 @@
     "dev": "export DEBUG=true && node scratch.js",
     "db:reset": "dropdb recipe-minder-db && createdb recipe-minder-db && psql -f db/schema.sql recipe-minder-db && psql -f db/seed.sql recipe-minder-db",
     "db:shell": "psql recipe-minder-db",
-    "db:scratch": "psql -f db/scratch.sql recipe-minder-db",
-    "test": "mocha"
+    "db:dev": "psql -f db/scratch.sql recipe-minder-db",
+    "test": "mocha --watch --reporter list"
   },
   "keywords": [],
   "author": "",
