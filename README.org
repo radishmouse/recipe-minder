@@ -70,3 +70,7 @@
 *** TODO I just made a thing, and next time, I want to try making it spicier
 
 *** TODO Oh, I don't like this new version. I want to go back to that thing I did a few times ago.
+
+** Advanced querying
+
+*** TODO What have I not made in a while for a party that has beets in it?
