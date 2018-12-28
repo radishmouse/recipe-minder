@@ -1,5 +1,6 @@
 const Model = require('./base');
 
+
 class Recipe extends Model {
   constructor(id, name, servings) {
     super();
@@ -31,7 +32,7 @@ class Recipe extends Model {
       `, [id]));
   }
   
-  static searchByName(searchText) {
+  static byName(searchText) {
     return this.convertFromQuery(this.db.any(`
         select * from recipes
         where
@@ -40,7 +41,7 @@ class Recipe extends Model {
 
   }
 
-  static searchByServings(howMany, threshold=1) {
+  static byServings(howMany, threshold=1) {
     // Find a Recipe that provides =howMany= servings
     return this.convertFromQuery(this.db.any(`
       select * from recipes 
@@ -49,7 +50,7 @@ class Recipe extends Model {
     `, [howMany, threshold]));
   }
 
-  static searchByIngredient(ingredientName){
+  static byIngredient(ingredientName){
     return this.convertFromQuery(this.db.any(`
       select * from recipes 
         where 
@@ -64,24 +65,7 @@ class Recipe extends Model {
 
   }
 
-  static searchOlder(howMany=5) {
-    console.log('TODO: use joins so we can see what date it was last made on');
-    return this.convertFromQuery(this.db.any(`
-      select * from recipes 
-        where 
-      id in (
-        select meal_id from recipes_meals 
-          where 
-        recipe_id in (
-          select id from meals 
-            order by made_on, id asc 
-          limit $1
-        )
-      )
-    `, [howMany]));
-  }
-
-  static searchByTag(tagName) {
+  static byTag(tagName) {
     return this.convertFromQuery(this.db.any(`
       select *
         from recipes
@@ -97,6 +81,26 @@ class Recipe extends Model {
     `, [tagName]));
 
   }
+
+  static older(howMany=5) {
+    console.log('TODO: use joins so we can see what date it was last made on');
+    console.log('TODO: let `older` be a modifier for other searches');
+    return this.convertFromQuery(this.db.any(`
+      select * from recipes 
+        where 
+      id in (
+        select meal_id from recipes_meals 
+          where 
+        recipe_id in (
+          select id from meals 
+            order by made_on, id asc 
+          limit $1
+        )
+      )
+    `, [howMany]));
+  }
+
+
 
   static delete(id) {
     return this.db.result(`
