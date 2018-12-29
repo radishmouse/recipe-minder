@@ -8,7 +8,8 @@
     "db:reset": "dropdb recipe-minder-db && createdb recipe-minder-db && psql -f db/schema.sql recipe-minder-db && psql -f db/seed.sql recipe-minder-db",
     "db:shell": "psql recipe-minder-db",
     "db:dev": "psql -f db/scratch.sql recipe-minder-db",
-    "test": "mocha --watch --reporter list"
+    "test": "nyc mocha --watch --reporter list",
+    "test:dev": "export DEBUG=true && nyc mocha --watch --reporter list"
   },
   "keywords": [],
   "author": "",
@@ -21,6 +22,7 @@
   "devDependencies": {
     "chai": "^4.2.0",
     "chai-as-promised": "^7.1.1",
-    "mocha": "^5.2.0"
+    "mocha": "^5.2.0",
+    "nyc": "^13.1.0"
   }
 }
