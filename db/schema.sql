@@ -40,8 +40,8 @@ create table recipes_meals (
 
 create table steps (
   id serial primary key,
-  step_number integer not null,
   description text not null,
+  step_number integer not null,
   version_number integer,
   recipe_id integer references recipes (id)
 );
