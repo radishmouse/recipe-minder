@@ -1,5 +1,5 @@
 const Model = require('./base');
-
+const Step = require('./Step');
 
 class Recipe extends Model {
   constructor(id, name, servings) {
@@ -83,8 +83,8 @@ class Recipe extends Model {
   }
 
   static older(howMany=5) {
-    console.log('TODO: use joins so we can see what date it was last made on');
-    console.log('TODO: let `older` be a modifier for other searches');
+    console.log('\nTODO: use joins so we can see what date it was last made on');
+    console.log('\nTODO: let `older` be a modifier for other searches');
     return this.convertFromQuery(this.db.any(`
       select * from recipes 
         where 
@@ -121,9 +121,10 @@ class Recipe extends Model {
 
   get steps() {
     // return db.any()
+    return Step.forRecipe(this.id);
   }
 
-  set step(step) {
+  set steps(stepsArray) {
 
     // if ()
     
